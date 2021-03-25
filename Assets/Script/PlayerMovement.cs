@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     int additionalJumps;
     public Animator animator;
     public TMP_Text TextOnPlayerHead;
+    bool buttonpressed;
+
     void Start() 
     { 
         rb = GetComponent<Rigidbody2D>(); 
@@ -32,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
         Jump();
         BetterJump();
         CheckIfGrounded();
+        Attack();        
     } 
     void Move() 
     { 
@@ -116,4 +119,16 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsJumping", true);
         }
     }
+    void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+                animator.SetBool("IsAttacking", true);
+        }
+        if (Input.GetKeyUp(KeyCode.J))
+        {
+            animator.SetBool("IsAttacking", false);
+        }
+    }
+
 }
