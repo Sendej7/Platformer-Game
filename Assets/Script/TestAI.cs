@@ -5,15 +5,20 @@ using UnityEngine;
 public class TestAI : MonoBehaviour
 {
 
-    public Transform target;//set target from inspector instead of looking in Update
+    GameObject Player;
+    Transform target;//set target from inspector instead of looking in Update
+    GameObject PlayerManagerGO;
     public float speed;
     public float distance;
     public float agroRange;
-    public ParticleSystem explosion;
- 
+    public GameObject Explosion;
+    PlayerManager PlayerManager;
     void Start()
     {
-        
+        Player = GameObject.FindWithTag ("Player"); 
+        target = Player.transform; 
+        PlayerManagerGO = GameObject.Find("PlayerManager"); 
+        PlayerManager= PlayerManagerGO.GetComponent<PlayerManager>();
     }
  
      void Update()
@@ -36,8 +41,10 @@ public class TestAI : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            explosion.Play();
-            Destroy(gameObject, explosion.main.duration);
+            Destroy(gameObject);
+            Instantiate(Explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            Debug.Log("exploded");
+            PlayerManager.LoseHP(1);
         }
         
     }

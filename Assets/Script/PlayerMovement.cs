@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     public TMP_Text TextOnPlayerHead;
     bool buttonpressed;
+    bool attacked;
 
     void Start() 
     { 
@@ -123,12 +124,41 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-                animator.SetBool("IsAttacking", true);
+            animator.SetBool("IsAttacking1", true);
+            attacked= true;
         }
         if (Input.GetKeyUp(KeyCode.J))
         {
-            animator.SetBool("IsAttacking", false);
+            animator.SetBool("IsAttacking1", false);
+            attacked= false;
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            animator.SetBool("IsAttacking2", true);
+            attacked= true;
+        }
+        if (Input.GetKeyUp(KeyCode.K))
+        {
+            animator.SetBool("IsAttacking2", false);
+            attacked= false;
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            animator.SetBool("IsUsingPower", true);
+            attacked= true;
+        }
+        if (Input.GetKeyUp(KeyCode.L))
+        {
+            animator.SetBool("IsUsingPower", false);
+            attacked= false;
         }
     }
-
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Enemy")&&attacked==true)
+            {
+                Destroy(other.gameObject);
+                Debug.Log("Killed");
+            }
+    }
 }
