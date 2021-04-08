@@ -8,9 +8,12 @@ public class Chest : MonoBehaviour
     public PlayerMovement PlayerMovement;
     bool ChestOpened;
     public Animator animator;
+    public GameObject ChestManagerGO;
+    public ChestManager ChestManager;
     void Start()
     {
-
+        ChestManagerGO = GameObject.Find("ChestManager"); 
+        ChestManager= ChestManagerGO.GetComponent<ChestManager>();
     }
     private void OnTriggerEnter2D(Collider2D other) 
     {
@@ -37,6 +40,7 @@ public class Chest : MonoBehaviour
                 animator.SetBool("ChestOpened", true);
                 PlayerMovement.TextOnPlayerHead.text = "";
                 ChestOpened=true;
+                ChestManager.AwardFromChest(ID);
             }
         }
     }

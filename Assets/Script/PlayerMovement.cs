@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text TextOnPlayerHead;
     bool buttonpressed;
     bool attacked;
+    public List<AttackColliderTest> AttackColliderTest;
 
     void Start() 
     { 
@@ -122,43 +123,46 @@ public class PlayerMovement : MonoBehaviour
     }
     void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.J)&&attacked==false)
         {
             animator.SetBool("IsAttacking1", true);
-            attacked= true;
+            AttackColliderTest[0].attacked=true;
+            attacked=true;
         }
         if (Input.GetKeyUp(KeyCode.J))
         {
             animator.SetBool("IsAttacking1", false);
-            attacked= false;
+
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
             animator.SetBool("IsAttacking2", true);
-            attacked= true;
+            AttackColliderTest[1].attacked=true;
         }
         if (Input.GetKeyUp(KeyCode.K))
         {
             animator.SetBool("IsAttacking2", false);
-            attacked= false;
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
             animator.SetBool("IsUsingPower", true);
-            attacked= true;
         }
         if (Input.GetKeyUp(KeyCode.L))
         {
             animator.SetBool("IsUsingPower", false);
-            attacked= false;
         }
     }
-    void OnTriggerEnter2D(Collider2D other)
+     public void AlertObservers(string message)
     {
-        if (other.gameObject.CompareTag("Enemy")&&attacked==true)
-            {
-                Destroy(other.gameObject);
-                Debug.Log("Killed");
-            }
+        if (message.Equals("Attack1AnimationEnded"))
+        {
+            AttackColliderTest[0].attacked=false;
+            attacked=false;
+        }
+        if (message.Equals("Attack2AnimationEnded"))
+        {
+            AttackColliderTest[1].attacked=false;
+        }
     }
+
 }
